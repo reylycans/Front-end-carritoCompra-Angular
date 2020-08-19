@@ -1,0 +1,89 @@
+<div class='row'>
+    <div class='col-sm-8'>
+      <div class='card mt-3'>
+        <div class='card-header'>
+          <h6>Carrito de compras</h6>
+        </div>
+        <div class='card-body'>
+          <table class='table table-bordered table-sm '>
+            <thead class='thead-dark'>
+              <tr>
+                <th width='50'>Id</th>
+                <th width='70'>Sku</th>
+                <th>Nombre</th>
+                <th width='50'>Cantidad</th> 
+                <th width='50'>Estado</th> 
+                <th width='50'>Eliminar</th>  
+                <th width='120' class="text-center">Cambio estado</th>          
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let producto of productoCarrito">
+                <td>{{producto.producto.id}}</td>
+                <td>{{producto.producto.sku}}</td>
+                <td>{{producto.producto.nombre}}</td>              
+                <td>{{producto.cantidad}}</td>
+                <td>{{producto.carrito.estado}}</td>
+                <td>
+                  <button class="btn btn-danger btn-sm" (click)="eliminarProductoCarrito(producto)">
+                    <fa-icon [icon]="faTrash"></fa-icon>
+                  </button>         
+                </td>
+                <td>
+                  <div class="form-check">
+                    <input class="form-check-input" 
+                           type="checkbox" 
+                           value="" id="defaultCheck1"
+                           ng-checked="producto.carrito.id==2? true:false"                         
+                           (click)="actualizarEstado(producto)"
+                           >
+                    <label class="form-check-label"  for="defaultCheck1">
+                      
+                    </label>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div class='col-sm-4'>
+      <div class='card mt-3'>
+        <div class='card-header'>
+          <h6>Generar compra</h6>
+        </div>
+        <div class='card-body'>
+          <label>SubTotal</label>
+          <input
+            type='text'
+            value='0'
+            class='form-control'
+            readOnly={true}
+          />
+          <label>Descuento</label>
+          <input
+            type='text'
+            defaultValue='$.0.00'
+            class='form-control'
+            readOnly={true}
+          />
+          <label>Total a Pagar</label>
+          <input
+            type='text'
+            value='0'
+            class='form-control'
+            readOnly={true}
+          />
+        </div>
+        <div class='card-footer'>
+          <a href='#' class='btn btn-info btn-block'>
+            Hacer el pago
+          </a>
+          <a href='#' class='btn btn-danger btn-block'>
+            Generar pago
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>

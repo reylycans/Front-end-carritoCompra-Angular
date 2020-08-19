@@ -1,0 +1,24 @@
+<div class='row'>
+    <div *ngFor="let producto of productos" class='card mt-2 mb-3 ml-2'>
+      <div class='card-header'>
+        <h6>{{producto.nombre}}</h6>
+      </div>
+      <div class='card-body'>
+              
+      </div>
+      <div class='card-footer'>
+        <span class='bold'>Sku</span>
+         <p>{{producto.sku}}</p>
+        <hr />
+        <div class='text-center'>
+          <button
+            (click)="agregarProductoCarrito(producto)"
+            class='btn btn-outline-info btn-sm'
+          >
+            Agregar
+          </button>
+        </div>
+      </div>
+    </div>
+
+</div>
