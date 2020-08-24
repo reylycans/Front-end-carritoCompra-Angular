@@ -38,8 +38,8 @@ export class ServiceService {
     );
   }
 
-  agregarProductoCarrito(productoCarrito: ProductoCarrito){
-   return this.http.post(`${this.endPoint}/productoCarrito`,productoCarrito).pipe(
+  guardarProductoCarrito(productoCarrito: ProductoCarrito[]):Observable<ProductoCarrito>{
+   return this.http.post<ProductoCarrito>(`${this.endPoint}/productoCarrito`,productoCarrito).pipe(
       catchError(e => {
          if (e.status === 401){
           return throwError(e);

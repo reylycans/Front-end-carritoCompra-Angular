@@ -4,6 +4,7 @@ import { ProductoCarrito } from '../modelos/productoCarrito';
 import { faTrash } from '@fortawesome/free-solid-svg-icons';
 import {Router} from '@angular/router';
 import { EstadoCarrito } from '../modelos/EstadoCarrito';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-carrito',
@@ -24,10 +25,12 @@ export class CarritoComponent implements OnInit {
   }
 
   obtenerProductosCarrito(){
-    this.productoService.obtenerProductosCarrito().subscribe(data=>{
-      this.productoCarrito = data;
-      console.log(this.productoCarrito);
-    });
+   // this.productoService.obtenerProductosCarrito().subscribe(res=>{
+     //  this.productoCarrito = res;
+    //});
+    const productoCar = localStorage.getItem("productoCart");
+    this.productoCarrito = JSON.parse(productoCar);
+    console.log(this.productoCarrito);
   } 
 
   alimentarStatus(){
@@ -49,7 +52,28 @@ export class CarritoComponent implements OnInit {
     })
   }
 
+
+  eliminarProductoCarritoTemporal(producto){
+   
+    this.productoCarrito = this.productoCarrito.filter(pro=> pro !== producto); 
+    localStorage.setItem("productoCart",JSON.stringify(this.productoCarrito));
+    
+    this.productoService.contador = this.productoCarrito.length;
+  }
+
+  guardarProductoCarrito(){
+   
+    this.productoService.guardarProductoCarrito(this.productoCarrito).subscribe(res=>{
+      Swal.fire(
+        'Pago',
+        'Pago realizado con exito',
+        'success'
+      )
+    });
+  }
+
   eliminarProductoCarrito(producto){
+
     this.productoService.eliminarProductoCarrito(producto.id).subscribe(response=>{
       this.productoCarrito = this.productoCarrito.filter(pro=> pro !== producto);
       this.productoService.contador = this.productoCarrito.length;

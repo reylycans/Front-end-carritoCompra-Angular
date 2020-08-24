@@ -25,7 +25,7 @@
                 <td>{{producto.cantidad}}</td>
                 <td>{{producto.carrito.estado}}</td>
                 <td>
-                  <button class="btn btn-danger btn-sm" (click)="eliminarProductoCarrito(producto)">
+                  <button class="btn btn-danger btn-sm" (click)="eliminarProductoCarritoTemporal(producto)">
                     <fa-icon [icon]="faTrash"></fa-icon>
                   </button>         
                 </td>
@@ -45,8 +45,10 @@
               </tr>
             </tbody>
           </table>
+          
         </div>
       </div>
+     
     </div>
     <div class='col-sm-4'>
       <div class='card mt-3'>
@@ -77,7 +79,7 @@
           />
         </div>
         <div class='card-footer'>
-          <a href='#' class='btn btn-info btn-block'>
+          <a (click)="guardarProductoCarrito()" class='btn btn-info btn-block'>
             Hacer el pago
           </a>
           <a href='#' class='btn btn-danger btn-block'>

@@ -1,9 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ɵConsole } from '@angular/core';
 import { Producto } from '../modelos/Productos';
 import {ServiceService} from '../service.service';
 import { ProductoCarrito } from '../modelos/productoCarrito';
 import { EstadoCarrito } from '../modelos/EstadoCarrito';
-import Swal from 'sweetalert2';
+
 
 @Component({
   selector: 'app-productos',
@@ -13,9 +13,9 @@ import Swal from 'sweetalert2';
 export class ProductosComponent implements OnInit {
 
   public productos:Producto[];
-  private productoCarrito: ProductoCarrito = new ProductoCarrito();
+  
   private carritoStatus: EstadoCarrito = new EstadoCarrito();
-
+  private productoCarrito: ProductoCarrito;
   private productoAgregados:any=[];
 
   constructor(private productoService:ServiceService) { }
@@ -35,22 +35,27 @@ export class ProductosComponent implements OnInit {
     this.carritoStatus.estado = "pendiente";
   }
 
+  verificarProductosCarrito(){
+    if(localStorage.getItem("productoCart")!= undefined && this.productoAgregados.length==0){
+      this.productoAgregados = JSON.parse(localStorage.getItem("productoCart"));
+    }
+  }
+
   agregarDatos(producto){
-    this.alimentarStatus();     
+    this.productoCarrito = new ProductoCarrito();
+    this.verificarProductosCarrito();
+    this.alimentarStatus();    
     this.productoCarrito.producto = producto;
     this.productoCarrito.carrito = this.carritoStatus;
     this.productoCarrito.cantidad = 1;
-      
-    this.productoAgregados.push(JSON.stringify(producto));
 
+    this.productoAgregados = this.productoAgregados.concat(this.productoCarrito); 
+    localStorage.setItem("productoCart", JSON.stringify(this.productoAgregados));
     this.productoService.contador = this.productoAgregados.length;
   }
   
   agregarProductoCarrito(producto){
-     this.agregarDatos(producto);
-    
-     this.productoService.agregarProductoCarrito(this.productoCarrito).subscribe(response=>{
-     });
+    this.agregarDatos(producto);
   }
 
 }
